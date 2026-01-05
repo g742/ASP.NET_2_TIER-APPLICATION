@@ -1,0 +1,32 @@
+@model List<TodoApp.Models.TodoItem>
+
+<h2>Todo List</h2>
+
+<form method="post" action="/Todo/Add">
+    <input type="text" name="task" placeholder="Enter new task" required />
+    <button type="submit">Add Task</button>
+</form>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            <span style="text-decoration: @(item.IsCompleted ? "line-through" : "none")">
+                @item.Task
+            </span>
+
+            @if (!item.IsCompleted)
+            {
+                <form method="post" action="/Todo/Complete" style="display:inline;">
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <button type="submit">Complete</button>
+                </form>
+            }
+
+            <form method="post" action="/Todo/Delete" style="display:inline;">
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    }
+</ul>

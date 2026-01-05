@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  todoapp:
+    build: .
+    ports:
+      - "8080:8080"       # maps container port 80 to host 8080
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      CONNECTION_STRING: Server=mysql-container;Port=3306;Database=TodoApp;User=root;Password=plmnkobji;
+    depends_on:
+      - mysql
+    networks:
+      - todo-network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: plmnkobji
+      MYSQL_DATABASE: TodoApp
+    ports:
+      - "3306:3306"
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+    driver: bridge
